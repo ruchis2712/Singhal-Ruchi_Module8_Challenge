@@ -311,7 +311,7 @@ def data_transform(wiki_data, kaggle_data, ratings_data):
                           'Based on':'based_on'
                          }, axis='columns', inplace=True)
         
-    except:
+    except (KeyError):
         print ("KeyError: column does not exist")
         pass
     
