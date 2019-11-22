@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # coding: utf-8
 
 # In[ ]:
@@ -326,15 +326,17 @@ def data_transform(wiki_data, kaggle_data, ratings_data):
 
     try:
         # create string with embedded sql password
-        db_string = f"mysql://test:{db_password}@127.0.0.1:5432/movie_data"
+        db_string = f"postgres://postgres:{db_password}@127.0.0.1:5432/movie_data"
 
         # create engine
         engine = create_engine(db_string)
 
-        movies_df.to_sql(name='movies', con=engine)
+        # enter cleaned movie data into table movies
+	movies_df.to_sql(name='movies', con=engine)
   
         rows_imported = 0
 
+	# enter ratings data into ratings table
         for data in pd.read_csv(f'{file_dir}/ratings.csv', chunksize=1000000):
             print(f'importing rows {rows_imported} to {rows_imported + len(data)}...', end='')
             data.to_sql(name='ratings', con=engine, if_exists='append')
